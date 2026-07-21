@@ -206,5 +206,5 @@ Validation passed.
 - This project is an academic demo.
 - The dataset is small and contains high missing rates in some columns.
 - The dashboard prediction is not a medical diagnosis tool.
-- Do not upload `.venv/`, `__pycache__/`, or temporary files to GitHub.
+
 
