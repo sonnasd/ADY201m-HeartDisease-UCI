@@ -1,0 +1,5 @@
+﻿source_name,file_name,row_count,column_count
+cleveland,processed.cleveland.data,303,14
+hungarian,processed.hungarian.data,294,14
+switzerland,processed.switzerland.data,123,14
+va_long_beach,processed.va.data,200,14

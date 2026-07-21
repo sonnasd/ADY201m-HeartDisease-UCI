@@ -1,0 +1,13 @@
+patient_id,encounter_id,name,source_database,age,sex,cp,trestbps,chol,fbs,restecg,thalach,exang,oldpeak,slope,ca,thal
+DEMO_P001,DEMO_E001,Demo Patient 01,demo_upload,45,1,2,120,210,0,0,172,0,0.4,1,0,3
+DEMO_P002,DEMO_E002,Demo Patient 02,demo_upload,52,0,3,128,245,0,1,165,0,0.8,2,0,3
+DEMO_P003,DEMO_E003,Demo Patient 03,demo_upload,58,1,4,145,260,0,1,132,1,2.1,2,1,7
+DEMO_P004,DEMO_E004,Demo Patient 04,demo_upload,61,0,4,150,275,1,2,118,1,2.8,3,2,7
+DEMO_P005,DEMO_E005,Demo Patient 05,demo_upload,39,1,1,118,190,0,0,185,0,0.0,1,0,3
+DEMO_P006,DEMO_E006,Demo Patient 06,demo_upload,67,1,4,160,286,0,2,108,1,3.5,3,2,7
+DEMO_P007,DEMO_E007,Demo Patient 07,demo_upload,54,1,3,135,230,0,0,155,0,1.2,2,0,3
+DEMO_P008,DEMO_E008,Demo Patient 08,demo_upload,49,0,2,122,205,0,1,168,0,0.6,1,0,3
+DEMO_P009,DEMO_E009,Demo Patient 09,demo_upload,63,1,4,148,254,0,2,122,1,2.4,2,1,6
+DEMO_P010,DEMO_E010,Demo Patient 10,demo_upload,57,0,4,140,268,1,1,136,1,1.9,2,1,7
+DEMO_P011,DEMO_E011,Demo Patient 11,demo_upload,42,1,2,126,218,0,0,176,0,0.2,1,0,3
+DEMO_P012,DEMO_E012,Demo Patient 12,demo_upload,70,1,4,170,300,1,2,105,1,4.0,3,3,7

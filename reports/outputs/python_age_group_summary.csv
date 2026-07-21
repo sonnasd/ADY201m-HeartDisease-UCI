@@ -1,0 +1,5 @@
+﻿age_group,total_records,positive_records,target_positive_rate,avg_thalach,avg_oldpeak
+<40,80,26.0,32.5,157.22,0.43
+40-49,212,85.0,40.09,145.91,0.58
+50-59,375,213.0,56.8,134.85,0.91
+60+,253,185.0,73.12,127.07,1.27

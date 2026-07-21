@@ -1,0 +1,5 @@
+﻿column_name,rule_based_min,rule_based_max,rule_outliers_count,iqr_lower_bound,iqr_upper_bound,iqr_outliers_count
+trestbps,80,220,1,90.0,170.0,28
+chol,80,600,173,35.5,407.5,183
+thalach,50,230,0,64.5,212.5,2
+oldpeak,0,10,12,-2.25,3.75,16
