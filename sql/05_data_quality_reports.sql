@@ -1,20 +1,10 @@
 USE HeartDiseaseClinicalDB;
 GO
 
--- ============================================================
--- 05_data_quality_reports.sql
--- Mục đích: Tính toán các báo cáo chất lượng dữ liệu bằng SQL
---           thuần túy từ 7 bảng quan hệ và bảng staging.
--- Kết quả được Python (02_preprocessing_cleaning.py) query và
--- lưu ra CSV để Dashboard đọc.
--- ============================================================
+-- 05_data_quality_reports.sql: Data Quality Reports
 
 
--- ============================================================
 -- REPORT 1: Missing Values Report
--- Đếm NULL trong mỗi cột của từng bảng quan hệ.
--- Output columns: table_name, column_name, missing_count, missing_pct
--- ============================================================
 SELECT 'patients'     AS table_name, 'age'             AS column_name, SUM(CASE WHEN age IS NULL THEN 1 ELSE 0 END) AS missing_count, ROUND(100.0 * SUM(CASE WHEN age IS NULL THEN 1 ELSE 0 END) / COUNT(*), 2) AS missing_pct FROM dbo.patients
 UNION ALL SELECT 'patients',     'sex',            SUM(CASE WHEN sex IS NULL THEN 1 ELSE 0 END), ROUND(100.0 * SUM(CASE WHEN sex IS NULL THEN 1 ELSE 0 END) / COUNT(*), 2) FROM dbo.patients
 UNION ALL SELECT 'symptoms',     'cp',             SUM(CASE WHEN cp IS NULL THEN 1 ELSE 0 END), ROUND(100.0 * SUM(CASE WHEN cp IS NULL THEN 1 ELSE 0 END) / COUNT(*), 2) FROM dbo.symptoms
@@ -33,11 +23,7 @@ UNION ALL SELECT 'diagnoses',    'target_binary',  SUM(CASE WHEN target_binary I
 GO
 
 
--- ============================================================
 -- REPORT 2: Duplicate Report
--- Kiểm tra duplicate dựa trên cột data (loại trừ cột ID).
--- Output columns: table_name, full_duplicate_rows, duplicate_rows_excluding_id
--- ============================================================
 SELECT
     'patients' AS table_name,
     SUM(cnt - 1) AS full_duplicate_rows,
@@ -106,13 +92,7 @@ FROM (
 GO
 
 
--- ============================================================
 -- REPORT 3: Outlier Report (IQR + Rule-based)
--- Tính Q1, Q3, IQR bằng PERCENTILE_CONT (Window Function).
--- Output columns: column_name, rule_based_min, rule_based_max,
---                 rule_outliers_count, iqr_lower_bound,
---                 iqr_upper_bound, iqr_outliers_count
--- ============================================================
 WITH percentiles AS (
     SELECT
         PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY trestbps) OVER () AS trestbps_q1,
@@ -184,11 +164,7 @@ FROM counts c, iqr_counts i;
 GO
 
 
--- ============================================================
 -- REPORT 4: Default Value Check Report
--- Đếm giá trị mặc định đáng ngờ (chol=0, trestbps=120, oldpeak=0).
--- Output columns: column_name, default_value, occurrence_count, percentage
--- ============================================================
 SELECT
     'trestbps' AS column_name,
     120        AS default_value,
@@ -210,11 +186,7 @@ FROM dbo.raw_flat_data WHERE oldpeak IS NOT NULL;
 GO
 
 
--- ============================================================
 -- REPORT 5: Target Distribution Report
--- Phân bố của num và target_binary.
--- Output columns: target_variable, value, count, percentage
--- ============================================================
 SELECT
     'num'   AS target_variable,
     CAST(num AS NVARCHAR(10)) AS value,

@@ -1,9 +1,7 @@
 USE HeartDiseaseClinicalDB;
 GO
 
--- SQL View: Tạo ML-ready view từ 7 bảng quan hệ.
--- Lưu ý: num và target_binary được giữ trong view để đối chiếu nhãn,
--- nhưng num không được dùng làm input feature khi train model để tránh data leakage.
+-- 07_create_ml_view.sql: Create ML-Ready View
 CREATE OR ALTER VIEW dbo.vw_ml_heart_disease_features AS
 SELECT
     e.encounter_id,

@@ -1,13 +1,7 @@
 USE HeartDiseaseClinicalDB;
 GO
 
--- ============================================================
--- 04_split_relational_data.sql
--- Mục đích: Tách dữ liệu từ bảng staging dbo.raw_flat_data
---           ra 7 bảng quan hệ. Script này thay thế hoàn toàn
---           việc split bảng bằng Python (Pandas).
--- Chạy sau khi: Python load_flat_data.py đã nạp raw_flat_data.
--- ============================================================
+-- 04_split_relational_data.sql: Split Flat Data into Relational Tables
 
 -- Xóa dữ liệu cũ (theo thứ tự FK)
 DELETE FROM dbo.diagnoses;
