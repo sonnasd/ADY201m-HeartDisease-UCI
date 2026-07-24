@@ -50,6 +50,8 @@ def save_relational_tables(tables: dict[str, pd.DataFrame]) -> None:
 
 def add_ml_features(ml_df: pd.DataFrame) -> pd.DataFrame:
     ml_df = ml_df.copy()
+    # ponytail: treat impossible cholesterol=0 as missing for ML; upgrade by documenting source-specific missing codes from UCI metadata.
+    ml_df["chol"] = ml_df["chol"].replace(0, np.nan)
 
     def get_age_group(age):
         if pd.isna(age):

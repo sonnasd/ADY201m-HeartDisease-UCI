@@ -24,7 +24,29 @@ SELECT
     d.ca,
     d.thal,
     d.num,
-    d.target_binary
+    d.target_binary,
+    CASE 
+        WHEN p.age IS NULL THEN NULL
+        WHEN p.age < 40 THEN '<40'
+        WHEN p.age < 50 THEN '40-49'
+        WHEN p.age < 60 THEN '50-59'
+        ELSE '60+' 
+    END AS age_group,
+    CASE
+        WHEN NULLIF(rt.chol, 0) IS NULL THEN 'low_or_unknown'
+        WHEN NULLIF(rt.chol, 0) < 200 THEN 'normal'
+        WHEN NULLIF(rt.chol, 0) < 240 THEN 'borderline_high'
+        ELSE 'high'
+    END AS cholesterol_category,
+    CASE 
+        WHEN ex.oldpeak IS NULL AND ex.slope IS NULL THEN NULL
+        WHEN ex.oldpeak > 1.0 OR ex.slope IN (2, 3) THEN 1
+        ELSE 0
+    END AS st_abnormal_flag,
+    CASE WHEN NULLIF(rt.chol, 0) IS NULL THEN 1 ELSE 0 END AS chol_missing_flag,
+    CASE WHEN rt.trestbps IS NULL THEN 1 ELSE 0 END AS trestbps_missing_flag,
+    CASE WHEN ex.thalach IS NULL THEN 1 ELSE 0 END AS thalach_missing_flag,
+    CASE WHEN ex.oldpeak IS NULL THEN 1 ELSE 0 END AS oldpeak_missing_flag
 FROM dbo.encounters AS e
 JOIN dbo.patients AS p ON e.patient_id = p.patient_id
 LEFT JOIN dbo.symptoms AS s ON e.encounter_id = s.encounter_id

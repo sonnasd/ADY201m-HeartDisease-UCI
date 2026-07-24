@@ -1,9 +1,9 @@
 :r sql\01_create_database.sql
 :r sql\02_create_tables.sql
-:r sql\03_import_data.sql
+-- Sau b??c n?y ch?y: python src\02_load_flat_data.py
 
--- Sau buoc nay chay: python src\load_relational_data.py
--- Roi chay lan luot:
--- :r sql\04_data_quality_checks.sql
--- :r sql\05_analysis_queries.sql
--- :r sql\06_create_ml_view.sql
+-- R?i ch?y l?n l??t trong SSMS:
+:r sql\04_split_relational_data.sql
+:r sql\05_data_quality_reports.sql
+:r sql\06_analysis_queries.sql
+:r sql\07_create_ml_view.sql

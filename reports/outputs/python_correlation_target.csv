@@ -8,7 +8,7 @@ oldpeak,0.3855
 slope,0.3371
 sex,0.3073
 age,0.2827
-chol,-0.2306
 fbs,0.1426
+chol,0.1183
 trestbps,0.1062
 restecg,0.0639

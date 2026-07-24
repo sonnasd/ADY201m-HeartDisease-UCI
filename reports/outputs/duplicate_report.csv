@@ -1,8 +1,7 @@
 ﻿table_name,full_duplicate_rows,duplicate_rows_excluding_id
 patients,0,0
-encounters,0,0
-symptoms,0,916
-risk_history,0,917
-resting_tests,0,183
-exercise_ecg_tests,0,306
-diagnoses,0,849
+symptoms,0,0
+risk_history,0,0
+resting_tests,0,0
+exercise_ecg_tests,0,0
+diagnoses,0,0

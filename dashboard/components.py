@@ -37,7 +37,7 @@ def show_dataframe(title: str, df: pd.DataFrame, height: int = 320) -> None:
 
 
 def render_prediction_form(model) -> None:
-    st.subheader(V("D\\u1ef1 \\u0111o\\u00e1n th\\u1eed v\\u1edbi Random Forest"))
+    st.subheader(V("D\\u1ef1 \\u0111o\\u00e1n th\\u1eed v\\u1edbi Logistic Regression"))
     st.caption(V("Demo h\\u1ecdc thu\\u1eadt. Kh\\u00f4ng d\\u00f9ng \\u0111\\u1ec3 ch\\u1ea9n \\u0111o\\u00e1n y t\\u1ebf."))
     mode = st.radio("Prediction mode", [V("Import danh s\\u00e1ch CSV"), V("Nh\\u1eadp tay 1 b\\u1ec7nh nh\\u00e2n")], horizontal=True)
     if mode.startswith("Import"):

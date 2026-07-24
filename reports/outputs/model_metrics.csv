@@ -1,7 +1,7 @@
 ﻿feature_set,model_name,accuracy,precision,recall,f1_score
-full_features,Logistic Regression,0.8424,0.8476,0.8725,0.8599
-full_features,Decision Tree,0.7772,0.802,0.7941,0.798
-full_features,Random Forest,0.8641,0.8598,0.902,0.8804
-eda_filtered_features,Logistic Regression,0.837,0.8333,0.8824,0.8571
-eda_filtered_features,Decision Tree,0.7717,0.7941,0.7941,0.7941
-eda_filtered_features,Random Forest,0.8587,0.8455,0.9118,0.8774
+full_features,Logistic Regression,0.8152,0.8269,0.8431,0.835
+full_features,Decision Tree,0.7337,0.7387,0.8039,0.77
+full_features,Random Forest,0.8043,0.8,0.8627,0.8302
+eda_filtered_features,Logistic Regression,0.7935,0.7963,0.8431,0.819
+eda_filtered_features,Decision Tree,0.7446,0.7391,0.8333,0.7834
+eda_filtered_features,Random Forest,0.8098,0.8073,0.8627,0.8341

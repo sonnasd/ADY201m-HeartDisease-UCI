@@ -4,10 +4,10 @@ import streamlit as st
 
 try:
     from dashboard.components import render_prediction_form, show_dataframe, show_image, show_kpis
-    from dashboard.data_loader import build_sql_result_frames, get_figure_path, load_all_data, load_model
+    from dashboard.data_loader import get_figure_path, load_all_data, load_model
 except ModuleNotFoundError:
     from components import render_prediction_form, show_dataframe, show_image, show_kpis
-    from data_loader import build_sql_result_frames, get_figure_path, load_all_data, load_model
+    from data_loader import get_figure_path, load_all_data, load_model
 
 
 def V(text: str) -> str:
@@ -20,7 +20,6 @@ st.title("ADY Heart Disease Dashboard")
 st.caption(V("T\\u1ed5ng h\\u1ee3p data quality, EDA, SQL analysis, ML v\\u00e0 demo d\\u1ef1 \\u0111o\\u00e1n. Ch\\u1ec9 ph\\u1ee5c v\\u1ee5 h\\u1ecdc t\\u1eadp."))
 
 data = load_all_data()
-sql_results = build_sql_result_frames(data)
 model = load_model()
 
 tabs = st.tabs(["Overview", "Data Quality", "EDA", "SQL Results", "ML Demo", "Prediction Form"])
@@ -29,7 +28,7 @@ with tabs[0]:
     show_kpis(data)
     c1, c2 = st.columns([1.1, 1])
     with c1:
-        show_dataframe("Raw shape report", data["shape_report"], height=220)
+        st.write("SQL Pipeline is active. Raw shape report was replaced by relational data counts.")
         show_dataframe("Target distribution report", data["target_report"], height=240)
     with c2:
         show_image(get_figure_path("target_distribution.png"), "Target distribution")
@@ -68,16 +67,17 @@ with tabs[2]:
     st.caption("Selected correlation features exclude num and target_binary to avoid leakage.")
 
 with tabs[3]:
-    st.info(V("Tab n\\u00e0y hi\\u1ec3n th\\u1ecb k\\u1ebft qu\\u1ea3 t\\u01b0\\u01a1ng \\u0111\\u01b0\\u01a1ng c\\u00e1c query SQL \\u0111\\u1ec3 \\u0111\\u1ed1i chi\\u1ebfu report. Screenshot SQL Server v\\u1eabn c\\u1ea7n ch\\u1ee5p tr\\u1ef1c ti\\u1ebfp khi ch\\u1ea1y SSMS."))
-    show_dataframe("Source database counts", sql_results["source_counts"], height=220)
-    show_dataframe("Target distribution", sql_results["target_dist"], height=220)
-    show_dataframe("Chest pain by target", sql_results["cp_target"], height=280)
-    show_dataframe("Average metrics by target", sql_results["avg_metrics"], height=220)
-    show_dataframe("Oldpeak rank", sql_results["oldpeak_rank"], height=320)
-    show_dataframe("Source target rate vs overall", sql_results["source_target_rate_vs_overall"], height=220)
+    st.info(V("Tab n\\u00e0y hi\\u1ec3n th\\u1ecb k\\u1ebft qu\\u1ea3 100% t\\u1eeb c\\u00e1c file CSV m\\u00e0 SQL query sinh ra (06_analysis_queries.sql)."))
+    show_dataframe("Source database counts", data["source_counts"], height=220)
+    show_dataframe("Target distribution", data["target_dist"], height=220)
+    show_dataframe("Chest pain by target", data["cp_target"], height=280)
+    show_dataframe("Average metrics by target", data["avg_metrics"], height=220)
+    show_dataframe("Oldpeak rank", data["oldpeak_rank"], height=320)
+    show_dataframe("Source target rate vs overall", data["source_target_rate_vs_overall"], height=220)
+    show_dataframe("Cholesterol Outliers (chol=0 or >400)", data["chol_outliers"], height=220)
 
 with tabs[4]:
-    st.caption(V("Random Forest hi\\u1ec7n l\\u00e0 m\\u00f4 h\\u00ecnh t\\u1ed1t nh\\u1ea5t theo F1-score v\\u00e0 Recall tr\\u00ean t\\u1eadp ki\\u1ec3m tra. K\\u1ebft qu\\u1ea3 ch\\u1ec9 ph\\u1ee5c v\\u1ee5 h\\u1ecdc thu\\u1eadt."))
+    st.caption(V("Logistic Regression hi\\u1ec7n l\\u00e0 m\\u00f4 h\\u00ecnh t\\u1ed1t nh\\u1ea5t theo F1-score sau khi x\\u1eed l\\u00fd chol=0 nh\\u01b0 missing value. K\\u1ebft qu\\u1ea3 ch\\u1ec9 ph\\u1ee5c v\\u1ee5 h\\u1ecdc thu\\u1eadt."))
     show_dataframe("Model metrics", data["metrics"], height=200)
     c1, c2 = st.columns(2)
     with c1:
