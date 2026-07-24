@@ -1,18 +1,18 @@
 # ADY201m Heart Disease UCI Project
 
-Dự án phân tích UCI Heart Disease Dataset bằng Python scripts, SQL Server và Streamlit dashboard. Pipeline gồm: data profile, preprocessing/cleaning, relational database, data quality, EDA, machine learning và dashboard.
+This project analyzes the UCI Heart Disease Dataset using Python scripts, SQL Server, and a Streamlit dashboard. The pipeline includes: data profiling, preprocessing/cleaning, relational database design, data quality assurance, exploratory data analysis (EDA), machine learning, and dashboard deployment.
 
 ## 1. Setup
 
-Không cần nộp hoặc dùng `.venv`. Cài package trực tiếp bằng Python đang dùng trên máy:
+There is no need to submit or use a `.venv`. Install the required packages directly using your current Python environment:
 
 ```powershell
 pip install -r requirements.txt
 ```
 
-## 2. Chạy pipeline Python scripts
+## 2. Running the Python Scripts Pipeline
 
-Chạy từng phần theo thứ tự, tương ứng với cấu trúc notebook cũ:
+You can run each script sequentially in the following order, corresponding to the previous notebook structure:
 
 ```powershell
 python src\01_data_profile.py
@@ -23,75 +23,75 @@ python src\05_machine_learning.py
 python src\06_validate_outputs.py
 ```
 
-Hoặc chạy toàn bộ pipeline:
+Alternatively, you can execute the entire pipeline with a single command:
 
 ```powershell
 python processdata.py
 ```
 
-Output chính:
+Main outputs generated:
 
-- `data/processed/uci_heart_disease_parsed_flat.csv`: dữ liệu phẳng đã parse.
-- `data/processed/relational/*.csv`: 7 bảng quan hệ.
-- `data/processed/ml_ready_heart_disease.csv`: dataset cho ML.
-- `reports/outputs/*.csv`: báo cáo missing, duplicate, outlier, metrics.
-- `reports/figures/*.png`: 17 biểu đồ PNG cho báo cáo và dashboard.
-- `models/*.joblib`: model đã train, gồm `best_model.joblib` cho dashboard.
+- `data/processed/uci_heart_disease_parsed_flat.csv`: The parsed flat dataset.
+- `data/processed/relational/*.csv`: The 7 normalized relational tables.
+- `data/processed/ml_ready_heart_disease.csv`: The final dataset ready for machine learning.
+- `reports/outputs/*.csv`: Data quality reports detailing missing values, duplicates, outliers, and metrics.
+- `reports/figures/*.png`: 17 PNG charts used in the report and dashboard.
+- `models/*.joblib`: Trained models, including `best_model.joblib` used by the dashboard.
 
 ## 3. SQL Server
 
-Database mặc định: `HeartDiseaseClinicalDB`.
+Default database name: `HeartDiseaseClinicalDB`.
 
-Chạy trong SSMS:
+To execute in SQL Server Management Studio (SSMS):
 
-1. `sql/01_create_database.sql`
-2. `sql/02_create_tables.sql`
-3. Nạp flat CSV vào staging table bằng Python:
+1. Run `sql/01_create_database.sql`
+2. Run `sql/02_create_tables.sql`
+3. Load the flat CSV into the staging table using Python:
 
 ```powershell
 python src\02_load_flat_data.py
 ```
 
-4. Chạy tiếp:
+4. Continue running the remaining SQL scripts:
    - `sql/04_split_relational_data.sql`
    - `sql/05_data_quality_reports.sql`
    - `sql/06_analysis_queries.sql`
    - `sql/07_create_ml_view.sql`
 
-Nếu dùng `sql/Dataset.sql`, bật SQLCMD Mode trong SSMS vì file dùng `:r` để gọi các script con.
+If you are using the `sql/Dataset.sql` script to run everything, make sure to enable **SQLCMD Mode** in SSMS, as the file uses the `:r` command to call sub-scripts.
 
 ## 4. Dashboard
 
-Streamlit chạy từ file `.py`, không dùng notebook:
+The Streamlit dashboard is run directly from the `.py` script (not a notebook):
 
 ```powershell
 streamlit run dashboard\streamlit_app.py
 ```
 
-Dashboard đọc dữ liệu từ `data/processed`, `reports/outputs`, `reports/figures` và `models`.
+The dashboard reads its data from the `data/processed`, `reports/outputs`, `reports/figures`, and `models` directories.
 
-## 5. Screenshot cần chèn vào báo cáo
+## 5. Required Screenshots for the Report
 
-SQL/SSMS:
+**SQL/SSMS:**
 
-- Query 1: row count theo `source_database`.
-- Query 2: phân bố `target_binary`.
-- Query 3: chest pain type theo target.
-- Query 4: chỉ số trung bình theo target.
-- Query 5: top outliers theo cholesterol.
-- Query 6: window function xếp hạng `oldpeak` trong từng nhóm target.
-- Query 7: CTE/subquery so sánh tỷ lệ target=1 theo source với tỷ lệ chung.
+- Query 1: Row count grouped by `source_database`.
+- Query 2: Distribution of `target_binary`.
+- Query 3: Chest pain type grouped by target.
+- Query 4: Average clinical metrics grouped by target.
+- Query 5: Top outliers ordered by cholesterol.
+- Query 6: Window function ranking `oldpeak` within each target group.
+- Query 7: CTE/subquery comparing the target=1 rate by source against the overall rate.
 
-Dashboard Streamlit:
+**Streamlit Dashboard:**
 
-- Overview.
-- Data Quality.
-- EDA: `correlation_heatmap.png`, `selected_correlation_heatmap.png`, `age_thalach_scatter.png`, `age_group_target_rate.png`.
-- SQL Results: bảng Query 1-7 tương đương.
-- ML Demo: `model_metrics.csv`, `classification_report.txt`, `confusion_matrix.png`, `model_comparison_f1.png`.
-- Prediction Form.
+- Overview tab.
+- Data Quality tab.
+- EDA tab: `correlation_heatmap.png`, `selected_correlation_heatmap.png`, `age_thalach_scatter.png`, `age_group_target_rate.png`.
+- SQL Results tab: Tables corresponding to Queries 1-7.
+- ML Demo tab: `model_metrics.csv`, `classification_report.txt`, `confusion_matrix.png`, `model_comparison_f1.png`.
+- Prediction Form tab.
 
-Validation:
+**Validation Script:**
 
 ```powershell
 python src\06_validate_outputs.py
@@ -101,4 +101,4 @@ python src\06_validate_outputs.py
 
 Janosi, A., Steinbrunn, W., Pfisterer, M., & Detrano, R. (1989). Heart Disease [Dataset]. UCI Machine Learning Repository. DOI: `10.24432/C52P4X`.
 
-Kết quả chỉ phục vụ mục đích học tập trong môn ADY201m, không thay thế chẩn đoán hoặc tư vấn y tế.
+*Disclaimer: The results of this project are for educational purposes only as part of the ADY201m course and are not intended to replace professional medical diagnosis or advice.*
