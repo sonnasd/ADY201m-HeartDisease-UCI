@@ -31,19 +31,12 @@ python processdata.py
 
 Output chính:
 
-<<<<<<< HEAD
 - `data/processed/uci_heart_disease_parsed_flat.csv`: dữ liệu phẳng đã parse.
 - `data/processed/relational/*.csv`: 7 bảng quan hệ.
 - `data/processed/ml_ready_heart_disease.csv`: dataset cho ML.
 - `reports/outputs/*.csv`: báo cáo missing, duplicate, outlier, metrics.
 - `reports/figures/*.png`: 17 biểu đồ PNG cho báo cáo và dashboard.
 - `models/*.joblib`: model đã train, gồm `best_model.joblib` cho dashboard.
-=======
-- This project is an academic demo.
-- The dataset is small and contains high missing rates in some columns.
-- The dashboard prediction is not a medical diagnosis tool.
-
->>>>>>> 0f29d34c5e910262f27550daff7272c05b65128b
 
 ## 3. SQL Server
 

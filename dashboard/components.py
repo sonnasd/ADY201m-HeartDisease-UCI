@@ -17,18 +17,18 @@ def show_kpis(data: dict) -> None:
     ml_df = data["ml"]
     missing_cells = int(ml_df.isna().sum().sum())
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric(V("T\\u1ed5ng record"), f"{len(ml_df):,}")
-    col2.metric(V("S\\u1ed1 b\\u1ea3ng quan h\\u1ec7"), "7")
+    col1.metric("Total records", f"{len(ml_df):,}")
+    col2.metric("Relational tables", "7")
     col3.metric("Missing cells", f"{missing_cells:,}")
     col4.metric("Target = 1", f"{int((ml_df['target_binary'] == 1).sum()):,}")
-    st.caption(V("L\\u01b0u \\u00fd: dataset hi\\u1ec7n c\\u00f3 920 record, ph\\u00f9 h\\u1ee3p cho h\\u1ecdc thu\\u1eadt v\\u00e0 demo pipeline nh\\u01b0ng v\\u1eabn nh\\u1ecf so v\\u1edbi nh\\u00f3m d\\u1eef li\\u1ec7u quy m\\u00f4 l\\u1edbn."))
+    st.caption("Note: dataset currently has 920 records, suitable for academics and pipeline demo, but small compared to large-scale datasets.")
 
 
 def show_image(path: Path, caption: str) -> None:
     if path.exists():
         st.image(str(path), caption=caption, use_container_width=True)
     else:
-        st.warning(V("Thi\\u1ebfu h\\u00ecnh: ") + path.name)
+        st.warning("Missing image: " + path.name)
 
 
 def show_dataframe(title: str, df: pd.DataFrame, height: int = 320) -> None:
@@ -37,9 +37,9 @@ def show_dataframe(title: str, df: pd.DataFrame, height: int = 320) -> None:
 
 
 def render_prediction_form(model) -> None:
-    st.subheader(V("D\\u1ef1 \\u0111o\\u00e1n th\\u1eed v\\u1edbi Logistic Regression"))
-    st.caption(V("Demo h\\u1ecdc thu\\u1eadt. Kh\\u00f4ng d\\u00f9ng \\u0111\\u1ec3 ch\\u1ea9n \\u0111o\\u00e1n y t\\u1ebf."))
-    mode = st.radio("Prediction mode", [V("Import danh s\\u00e1ch CSV"), V("Nh\\u1eadp tay 1 b\\u1ec7nh nh\\u00e2n")], horizontal=True)
+    st.subheader("Prediction with Logistic Regression")
+    st.caption("Academic demo. Do not use for medical diagnosis.")
+    mode = st.radio("Prediction mode", ["Import CSV batch", "Manual input for 1 patient"], horizontal=True)
     if mode.startswith("Import"):
         render_batch_prediction_upload(model)
         return
@@ -66,7 +66,7 @@ def render_prediction_form(model) -> None:
         slope = c2.selectbox("slope", [1.0, 2.0, 3.0], index=1)
         ca = c3.selectbox("ca", [0.0, 1.0, 2.0, 3.0], index=0)
         thal = c4.selectbox("thal", [3.0, 6.0, 7.0], index=0)
-        submitted = st.form_submit_button(V("D\\u1ef1 \\u0111o\\u00e1n"))
+        submitted = st.form_submit_button("Predict")
 
     if submitted:
         sample = pd.DataFrame([{name: value for name, value in {
@@ -78,11 +78,11 @@ def render_prediction_form(model) -> None:
         probability = float(model.predict_proba(sample)[0][1])
         st.write(f"patient_id = {patient_id}")
         st.success(f"target_binary = {prediction}")
-        st.metric(V("X\\u00e1c su\\u1ea5t thu\\u1ed9c nh\\u00f3m target = 1"), f"{probability:.2%}")
-        st.caption(V("\\u00dd ngh\\u0129a: record c\\u00f3 pattern g\\u1ea7n nh\\u00f3m c\\u00f3 presence of heart disease trong dataset UCI."))
+        st.metric("Probability of target = 1", f"{probability:.2%}")
+        st.caption("Meaning: record has a pattern similar to the presence of heart disease group in the UCI dataset.")
 
 def render_batch_prediction_upload(model) -> None:
-    st.caption(V("Upload file CSV b\\u1ec7nh nh\\u00e2n \\u0111\\u1ec3 d\\u1ef1 \\u0111o\\u00e1n t\\u1eebng d\\u00f2ng. K\\u1ebft qu\\u1ea3 ch\\u1ec9 ph\\u1ee5c v\\u1ee5 h\\u1ecdc thu\\u1eadt, kh\\u00f4ng d\\u00f9ng \\u0111\\u1ec3 ch\\u1ea9n \\u0111o\\u00e1n y t\\u1ebf."))
+    st.caption("Upload patient CSV file for row-by-row prediction. Results are for educational purposes only, do not use for medical diagnosis.")
     st.download_button(
         "Download CSV template",
         data=build_template_csv(),
@@ -92,7 +92,7 @@ def render_batch_prediction_upload(model) -> None:
 
     with st.form("batch_prediction_form"):
         uploaded_file = st.file_uploader("Import patient CSV", type=["csv"])
-        submitted = st.form_submit_button(V("D\\u1ef1 \\u0111o\\u00e1n danh s\\u00e1ch"))
+        submitted = st.form_submit_button("Predict batch")
 
     if not submitted:
         return
@@ -110,7 +110,7 @@ def render_batch_prediction_upload(model) -> None:
         st.error(str(exc))
         return
 
-    st.success(V("D\\u1ef1 \\u0111o\\u00e1n xong. T\\u1ea3i file k\\u1ebft qu\\u1ea3 b\\u00ean d\\u01b0\\u1edbi."))
+    st.success("Prediction complete. Download the result file below.")
     show_dataframe("Prediction results preview", result_df.head(100), height=360)
     st.download_button(
         "Download prediction_results.csv",

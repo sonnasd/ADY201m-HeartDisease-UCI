@@ -98,9 +98,9 @@ def main() -> None:
     fig, ax = plt.subplots(figsize=(6, 4.5))
     counts = ml_df["target_binary"].value_counts().sort_index()
     ax.bar(["0", "1"], counts.values, color=["#3B82F6", "#F59E0B"])
-    ax.set_title("Phân bố target_binary")
+    ax.set_title("Target Distribution")
     ax.set_xlabel("target_binary")
-    ax.set_ylabel("Số record")
+    ax.set_ylabel("Count")
     for i, value in enumerate(counts.values):
         ax.text(i, value, str(value), ha="center", va="bottom")
     save_current(fig, "target_distribution.png")
@@ -108,10 +108,10 @@ def main() -> None:
     fig, ax = plt.subplots(figsize=(7, 4.5))
     source_counts = flat_df["source_database"].value_counts().sort_values(ascending=False)
     sns.barplot(x=source_counts.index, y=source_counts.values, color="#1E40AF", ax=ax)
-    ax.set_title("Số record theo source_database")
+    ax.set_title("Record Count by Source Database")
     ax.set_xlabel("Source database")
-    ax.set_ylabel("Số record")
-    ax.tick_params(axis="x", rotation=20)
+    ax.set_ylabel("Count")
+    ax.tick_params(axis="x", rotation=0)
     for i, value in enumerate(source_counts.values):
         ax.text(i, value, str(value), ha="center", va="bottom")
     save_current(fig, "patient_count_by_source.png")
@@ -125,28 +125,28 @@ def main() -> None:
         .reset_index(name="heart_disease_rate")
     )
     sns.barplot(data=source_rate, x="source_database", y="heart_disease_rate", color="#DC2626", ax=ax)
-    ax.set_title("Tỷ lệ bệnh tim theo source_database")
+    ax.set_title("Heart Disease Rate by Source Database")
     ax.set_xlabel("Source database")
-    ax.set_ylabel("Tỷ lệ target=1 (%)")
+    ax.set_ylabel("Target=1 Rate (%)")
     ax.set_ylim(0, max(100, float(source_rate["heart_disease_rate"].max()) + 5))
-    ax.tick_params(axis="x", rotation=20)
+    ax.tick_params(axis="x", rotation=0)
     for i, row in source_rate.iterrows():
         ax.text(i, row["heart_disease_rate"], f"{row['heart_disease_rate']:.1f}%", ha="center", va="bottom")
     save_current(fig, "heart_disease_rate_by_region.png")
 
     fig, ax = plt.subplots(figsize=(8, 4.5))
     sns.histplot(data=ml_df, x="age", hue="target_binary", bins=20, multiple="stack", ax=ax)
-    ax.set_title("Phân bố tuổi theo target")
-    ax.set_xlabel("Tuổi")
-    ax.set_ylabel("Số record")
+    ax.set_title("Age Distribution by Target")
+    ax.set_xlabel("Age")
+    ax.set_ylabel("Count")
     save_current(fig, "age_distribution.png")
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
     cp_counts = ml_df.groupby(["cp", "target_binary"]).size().reset_index(name="count")
     sns.barplot(data=cp_counts, x="cp", y="count", hue="target_binary", ax=ax)
-    ax.set_title("Chest pain type theo target")
+    ax.set_title("Chest Pain Type by Target")
     ax.set_xlabel("cp")
-    ax.set_ylabel("Số record")
+    ax.set_ylabel("Count")
     save_current(fig, "cp_target.png")
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
@@ -160,16 +160,16 @@ def main() -> None:
         .reset_index(drop=True)
     )
     bars = ax.bar(cp_disease_counts["cp"].astype(str), cp_disease_counts["count"], color="#EF4444")
-    ax.set_title("Phân bố loại đau ngực ở nhóm bệnh nhân bệnh tim")
+    ax.set_title("Chest Pain Type Distribution in Heart Disease Patients")
     ax.set_xlabel("Chest Pain Type (cp)")
-    ax.set_ylabel("Số record")
+    ax.set_ylabel("Count")
     for bar, value in zip(bars, cp_disease_counts["count"]):
         ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(), str(value), ha="center", va="bottom")
     save_current(fig, "cp_heart_disease.png")
 
     for y_col, title, name in [
-        ("chol", "Cholesterol theo target", "chol_by_target.png"),
-        ("oldpeak", "Oldpeak theo target", "oldpeak_by_target.png"),
+        ("chol", "Cholesterol by Target", "chol_by_target.png"),
+        ("oldpeak", "Oldpeak by Target", "oldpeak_by_target.png"),
     ]:
         fig, ax = plt.subplots(figsize=(7, 4.5))
         sns.boxplot(data=ml_df, x="target_binary", y=y_col, ax=ax)
@@ -180,17 +180,17 @@ def main() -> None:
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
     sns.scatterplot(data=ml_df.dropna(subset=["age", "thalach", "target_binary"]), x="age", y="thalach", hue="target_binary", alpha=0.72, ax=ax)
-    ax.set_title("Tuổi và nhịp tim tối đa theo target")
-    ax.set_xlabel("Tuổi")
-    ax.set_ylabel("thalach - nhịp tim tối đa")
+    ax.set_title("Age and Max Heart Rate by Target")
+    ax.set_xlabel("Age")
+    ax.set_ylabel("thalach - Max Heart Rate")
     ax.legend(title="target_binary")
     save_current(fig, "age_thalach_scatter.png")
 
     fig, ax = plt.subplots(figsize=(7, 4.5))
     sns.lineplot(data=age_summary, x="age_group", y="target_positive_rate", marker="o", color="#1E40AF", ax=ax)
-    ax.set_title("Tỷ lệ target=1 theo nhóm tuổi")
-    ax.set_xlabel("Nhóm tuổi")
-    ax.set_ylabel("Tỷ lệ target=1 (%)")
+    ax.set_title("Target=1 Rate by Age Group")
+    ax.set_xlabel("Age Group")
+    ax.set_ylabel("Target=1 Rate (%)")
     ax.set_ylim(0, max(100, float(age_summary["target_positive_rate"].max()) + 5))
     for _, row in age_summary.iterrows():
         ax.text(row["age_group"], row["target_positive_rate"], f"{row['target_positive_rate']:.1f}%", ha="center", va="bottom")
@@ -214,9 +214,9 @@ def main() -> None:
 
     fig, ax = plt.subplots(figsize=(8, 4.5))
     sns.boxplot(data=ml_df[["trestbps", "chol", "thalach", "oldpeak"]], ax=ax)
-    ax.set_title("Boxplot các biến kiểm tra outlier")
-    ax.set_xlabel("Biến")
-    ax.set_ylabel("Giá trị")
+    ax.set_title("Outlier Check Boxplots")
+    ax.set_xlabel("Feature")
+    ax.set_ylabel("Value")
     save_current(fig, "outliers_boxplot.png")
 
     print(f"Saved figures to {FIGURE_DIR}")
